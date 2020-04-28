@@ -1,6 +1,6 @@
 {
   "name": "pure-container",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "js container",
   "main": "/lib/Container.js",
   "files": [
@@ -11,7 +11,10 @@
     "prepublish": "babel src --out-dir lib"
   },
   "keywords": [
-    "js", "container", "nodejs", "browser"
+    "js",
+    "container",
+    "nodejs",
+    "browser"
   ],
   "author": "Zoran Wong",
   "license": "MIT",
