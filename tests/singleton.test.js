@@ -6,7 +6,7 @@ class Test {
     }
 }
 
-let container = Container.getContainer();
+let container = Container.getInstance();
 container.singleton('testSingleton', Test);
 
 let test1 = container.make('testSingleton', 'test0');

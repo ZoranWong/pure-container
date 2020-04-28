@@ -6,7 +6,7 @@ class Test {
     }
 }
 
-let container = Container.getContainer();
+let container = Container.getInstance();
 container.bind('test', Test);
 
 let test1 = container.make('test', 'test');

@@ -8,8 +8,8 @@ npm install pure-container --save
 # import container to your project and using in the project
 ```
 import Container from 'pure-container';
-// The Container class is a singleton class.You need use the static method getContainer to get a Container object.
-const container = Container.getContainer();
+// The Container class is a singleton class.You need use the static method getInstance to get a Container object.
+const container = Container.getInstance();
 
 // bind a class or a method which return a object
 class User {

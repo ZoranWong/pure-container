@@ -21,7 +21,7 @@ export default class Container extends IContainer {
      * 获取容器代理对象
      * @return {Container|Proxy}
      */
-    static getContainer() {
+    static getInstance() {
         if (!Container._instance) {
             Container._instance = new Container();
         }

@@ -1,6 +1,6 @@
 import Container from '../src/Container';
 
-let container = Container.getContainer();
+let container = Container.getInstance();
 container.instance('instance', {
     name: 'xxxxxx'
 });
