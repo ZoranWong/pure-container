@@ -4,7 +4,7 @@
   "description": "js container",
   "main": "/lib/Container.js",
   "files": [
-    "files"
+    "lib"
   ],
   "scripts": {
     "test": "jest ./tests/",
