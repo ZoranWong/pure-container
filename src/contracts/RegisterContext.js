@@ -1,10 +1,11 @@
 import { isFunction, isObject } from 'underscore';
 export default class RegisterContext {
-    instance = null;
     singleton = false;
     callback = null;
     context = null;
-    constructor(instance, context, singleton = false) {
+    name = null;
+    constructor(name, instance, context, singleton = false) {
+        this.name = name;
         this.singleton = singleton;
         this.context = context;
         this.callback = this.getClosure(instance);
@@ -58,11 +59,9 @@ export default class RegisterContext {
      */
     resovle(...params) {
         if (this.singleton) {
-            if (this.instance) {
-                return this.instance;
-            } else {
-                return (this.instance = this.callback(this.context, ...params))
-            }
+            let instance = this.callback(this.context, ...params);
+            this.context.instance(this.name, instance);
+            return instance;
         } else {
             return this.callback(this.context, ...params);
         }

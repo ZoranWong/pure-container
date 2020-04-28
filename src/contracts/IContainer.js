@@ -28,7 +28,7 @@ export default class IContainer {
     }
 
     bind(name, concrete, singleton = false) {
-        this.#bindings[name] = new RegisterContext(concrete, this, singleton);
+        this.#bindings[name] = new RegisterContext(name, concrete, this, singleton);
         return this;
     }
 
