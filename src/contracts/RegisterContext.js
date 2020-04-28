@@ -10,6 +10,11 @@ export default class RegisterContext {
         this.callback = this.getClosure(instance);
     }
 
+    /**
+     * [getClosure description]
+     * @param  {[any]} instance [绑定对象或者函数]
+     * @return {[Function]}          [对象创建函数]
+     */
     getClosure(instance) {
         if (isFunction(instance)) {
             try {
@@ -46,6 +51,11 @@ export default class RegisterContext {
         }
     }
 
+    /**
+     * []
+     * @param  {[Array]} params [参数数组]
+     * @return {[any]}        [返回创建的]
+     */
     resovle(...params) {
         if (this.singleton) {
             if (this.instance) {

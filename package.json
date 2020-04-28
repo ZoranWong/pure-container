@@ -2,9 +2,11 @@
   "name": "pure-container",
   "version": "0.0.1",
   "description": "js container",
-  "main": "src/index.js",
+  "main": "/lib/Container.js",
+  "files": ["files"],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest ./tests/",
+    "prepublish": "babel src --out-dir lib"
   },
   "keywords": [
     "container"
@@ -15,6 +17,7 @@
     "underscore": "^1.10.2"
   },
   "devDependencies": {
+    "@babel/cli": "^7.8.4",
     "@babel/core": "^7.9.0",
     "@babel/plugin-proposal-class-properties": "^7.8.3",
     "@babel/plugin-proposal-private-methods": "^7.8.3",
