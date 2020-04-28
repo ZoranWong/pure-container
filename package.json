@@ -11,7 +11,7 @@
     "prepublish": "babel src --out-dir lib"
   },
   "keywords": [
-    "container"
+    "js", "container", "nodejs", "browser"
   ],
   "author": "Zoran Wong",
   "license": "MIT",
