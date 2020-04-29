@@ -1,5 +1,8 @@
 import RegisterContext from './RegisterContext';
-import { isFunction, isArray } from 'underscore';
+import {
+    isFunction,
+    isArray
+} from 'underscore';
 /**
  * @interface IContainer 容器接口
  * @type {Array}
@@ -9,8 +12,7 @@ export default class IContainer {
     #bindings = {};
     #aliases = {};
     #methodBindings = {};
-    constructor() {
-    }
+    constructor() {}
 
     /**
      * [注册一个现成的对象实例为单例]
@@ -19,7 +21,7 @@ export default class IContainer {
      * @return {[IContainer]}          [description]
      */
     instance(name, instance) {
-        if (!isFunction(instance)) {
+        if(!isFunction(instance)) {
             this.#instances[name] = instance;
             return this;
         } else {
@@ -37,7 +39,7 @@ export default class IContainer {
     }
 
     parseBindMethod(method) {
-        if (isArray(method)) {
+        if(isArray(method)) {
             return `${method[0]}@${method[1]}`;
         }
         return method;
@@ -65,7 +67,7 @@ export default class IContainer {
 
     getAlias(name) {
         let aliases = this.#aliases;
-        if (typeof aliases[name] === 'undefined') {
+        if(typeof aliases[name] === 'undefined') {
             return name;
         }
         return this.getAlias(name);
@@ -77,14 +79,14 @@ export default class IContainer {
     resovle(name, ...params) {
         name = this.getAlias(name);
         let instances = this.#instances;
-        if (typeof instances[name] !== 'undefined') {
+        if(typeof instances[name] !== 'undefined') {
             return instances[name];
         }
         let bindings = this.#bindings;
         let context = bindings[name];
-        if (typeof context !== 'undefined') {
+        if(typeof context !== 'undefined') {
             let instance = context.resovle(...params);
-            if (context.singleton) {
+            if(context.singleton) {
                 instances[name] = instance;
             }
             return instance;
@@ -104,7 +106,7 @@ export default class IContainer {
     extend(name, callback) {
         name = this.getAlias(name);
         let instances = this.#instances;
-        if (typeof instances[name] !== 'undefined') {
+        if(typeof instances[name] !== 'undefined') {
             let instance = instances[name];
             instances[name] = callback(instance, this);
         }

@@ -1,4 +1,10 @@
 import IContainer from './contracts/IContainer';
+import {
+    isClass
+} from './helpers';
+import {
+    isFunction
+} from 'underscore';
 export default class Container extends IContainer {
     /**@property {Proxy<Container>} 容器实例代理对象*/
     #proxy = null;
@@ -8,10 +14,18 @@ export default class Container extends IContainer {
         super();
         this.#proxy = new Proxy(this, {
             get(obj, prop) {
-                return typeof obj[prop] === 'undefined' ? obj.make(prop) : obj[prop];
+                return typeof obj[prop] === 'undefined' ? obj.get(prop) : obj[prop];
             },
             set(obj, prop, value) {
-                obj.bind(prop, value);
+                if(isClass(value)) {
+                    obj.bind(prop, value);
+                } else if(!isFunction(value)) {
+                    obj.instance(prop, value);
+                } else if(typeof value() === 'undefined') {
+                    obj.bindMethod(prop, value);
+                } else {
+                    obj.bind(prop, value);
+                }
                 return value;
             }
         });
@@ -22,7 +36,7 @@ export default class Container extends IContainer {
      * @return {Container|Proxy}
      */
     static getInstance() {
-        if (!Container._instance) {
+        if(!Container._instance) {
             Container._instance = new Container();
         }
         return Container._instance.getProxy();
