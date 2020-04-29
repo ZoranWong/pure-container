@@ -1,6 +1,6 @@
 {
   "name": "pure-container",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "js container",
   "main": "/lib/Container.js",
   "files": [
