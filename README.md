@@ -47,6 +47,13 @@ container.config = {counter: 1};// register a singleton object by setter method
 container.get('counter');// get counter singleton instance
 container.get('config');// get config singleton instance
 container.config;//get config object by getter method
+
+// bind method
+container.bindMethod('createUser', function(name, age, sex){
+    return new User(name, age, sex);
+    });
+// call the bind method by callMethodBinding    
+let user = container.callMethodBinding('createUser', 'Mr. Zou', '29', 'Male');    
 ```
 ## Why we use it
 - pure-container can help you easy to organize objects which in your js project.

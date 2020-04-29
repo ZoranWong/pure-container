@@ -53,7 +53,9 @@ export default class IContainer {
 
     callMethodBinding(method, ...params) {
         let bindings = this.#methodBindings;
-        return bindings[method](...params);
+        if(this.hasMethodBinding(method)) {
+            return bindings[method](...params);
+        }
     }
     /**
      * [单例对象注册]
