@@ -3,9 +3,12 @@
 ```
 npm install pure-container --save
 ```
+## What is it
+- pure-container is a container library which is builded on javascript(es6).You can use it in your nodejs project or web front-end project.
 
-## How to use
-# import container to your project and using in the project
+## How to use it
+- import container to your project and using in the project
+
 ```
 import Container from 'pure-container';
 // The Container class is a singleton class.You need use the static method getInstance to get a Container object.
@@ -45,3 +48,9 @@ container.get('counter');// get counter singleton instance
 container.get('config');// get config singleton instance
 container.config;//get config object by getter method
 ```
+## Why we use it
+- pure-container can help you easy to organize objects which in your js project.
+- it also can be used as object factory and provider a easy way to create object by the name which you registered to container
+
+
+## API document
