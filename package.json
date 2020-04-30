@@ -1,6 +1,5 @@
 {
   "name": "@zoranwong/pure-container",
-  "private": true,
   "version": "0.2.10",
   "description": "js container",
   "main": "lib/Container.js",
