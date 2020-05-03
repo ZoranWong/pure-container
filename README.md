@@ -1,7 +1,7 @@
 # pure-container is a container library for nodejs or web project.
 ## Install package
 ```
-npm install pure-container --save
+npm install @zoranwong/pure-container --save
 ```
 ## What is it
 - pure-container is a container library which is builded on javascript(es6).You can use it in your nodejs project or web front-end project.

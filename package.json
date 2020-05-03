@@ -1,6 +1,6 @@
 {
   "name": "@zoranwong/pure-container",
-  "version": "0.2.11",
+  "version": "0.0.1",
   "description": "js container",
   "main": "lib/Container.js",
   "files": [
@@ -40,6 +40,13 @@
   "homepage": "https://github.com/ZoranWong/pure-container#README.md",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ZoranWong/pure-container.git"
+    "url": "git+https://github.com/ZoranWong/pure-container.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ZoranWong/pure-container/issues"
+  },
+  "directories": {
+    "lib": "lib",
+    "test": "tests"
   }
 }
