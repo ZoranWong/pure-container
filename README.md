@@ -5,6 +5,8 @@ npm install @zoranwong/pure-container --save
 ```
 ## What is it
 - pure-container is a container library which is builded on javascript(es6).You can use it in your nodejs project or web front-end project.
+- pure-container can help you easy to organize objects which in your js project.
+- it also can be used as object factory and provider a easy way to create object by the name which you registered to container
 
 ## How to use it
 - import container to your es6 project and using in the project
@@ -62,9 +64,6 @@ let user = container.callMethodBinding('createUser', 'Mr. Zou', '29', 'Male');
 const Container = require('pure-container').default;
 ```
 
-## Why we use it
-- pure-container can help you easy to organize objects which in your js project.
-- it also can be used as object factory and provider a easy way to create object by the name which you registered to container
 
 
 ## API document
