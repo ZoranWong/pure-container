@@ -70,25 +70,47 @@ const Container = require('pure-container').default;
 ## API document
 
 - Container.getInstance()  
+```
   This is a static method in Container class which to get a Container singleton instance.
+
 - container.instance(name, instance)
+```
   This method can be used to register an instance into the container.
   params: instance(name: string, instance: any)
+
+
 - container.bind(name, obj)
+```
     This method can be used to register a class or a factory method which can be used to create object  into the container.
     params: bind(name: string, obj: constructor|Closure)
+
+
 - container.singleton(name, obj)
+```
     This method can be used to register a class or a factory method which can be used to create object  into the container, but the container instantiates the object only once as you register a singleton for the class and the factory method.
     params: singleton(name: string, obj: constructor|Closure)
+
 - container.get(name)
+```
   This method provides an interface for you to obtain an object in which you register into the container without parameters.
+
 - container.make(name, ...params)
+```
     This method provides an interface for you to obtain an object in which you register into the container with parameters.
+
+
 - container.bindMethod(name, method)
+```
   This method can be used to bind an anonymous function into container.
+
 - container.callMethodBinding(name, ...params)
+```
    This method can be used to call an anonymous function which registered into container.
+
 - setter
+```
   The setter method of Container. If you set an instance it will call the instance(name, instance) to register the instance, and set a class or a factory method it will call the bind(name, obj) to register the class and the factory method.And also You can set an anonymous function to call the bindMethod(name, method) to register the anonymous function.
+
 - getter
+```
   The getter method of Container. If you can this method it will call the get(name) to obtain an instance for you.
