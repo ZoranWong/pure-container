@@ -114,6 +114,12 @@ export default class IContainer {
         }
     }
 
+    mixin(options) {
+        options.forEach((item, name) => {
+            this[name] = item;
+        });
+    }
+
     isShared(name) {
         let instances = this.#instances;
         let bindings = this.#bindings;
