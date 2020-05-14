@@ -1,7 +1,8 @@
 import RegisterContext from './RegisterContext';
 import {
     isFunction,
-    isArray
+    isArray,
+    each
 } from 'underscore';
 /**
  * @interface IContainer 容器接口
@@ -115,7 +116,7 @@ export default class IContainer {
     }
 
     mixin(options) {
-        options.forEach((item, name) => {
+        each(options, (item, name) => {
             this[name] = item;
         });
     }
