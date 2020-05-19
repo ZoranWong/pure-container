@@ -48,4 +48,8 @@ export default class Container extends IContainer {
     getProxy() {
         return this.#proxy;
     }
+
+    isClass(obj) {
+        return isClass(obj);
+    }
 }
