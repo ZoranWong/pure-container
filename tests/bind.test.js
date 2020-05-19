@@ -1,8 +1,4 @@
-// import Container from '../lib/main.js';
-//
-const Container = require('../lib/Container.js')
-    .default;
-console.log(Container);
+import Container from '../src/Container';
 class Test {
     name = '';
     constructor(name) {
