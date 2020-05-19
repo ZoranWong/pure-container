@@ -8,7 +8,7 @@
   ],
   "scripts": {
     "test": "jest ./tests/",
-    "prepublish": "babel src --out-dir lib",
+    "prepublish": "npm run deploy",
     "watch": "webpack --mode development --watch",
     "start": "webpack --mode development",
     "deploy": "webpack --mode production"
