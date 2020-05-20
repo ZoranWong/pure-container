@@ -5,10 +5,14 @@ import {
 import {
     isFunction
 } from 'underscore';
+/**
+ * @constructor {Container} 容器
+ * @property {IContainer} getProxy
+ * */
 export default class Container extends IContainer {
     /**@property {Proxy<Container>} 容器实例代理对象*/
     #proxy = null;
-    /**@property {Container} 容器单例对象*/
+    /**@static {Container} 容器单例对象*/
     static _instance = null;
     constructor() {
         super();
@@ -36,10 +40,12 @@ export default class Container extends IContainer {
      * @return {Container|Proxy}
      */
     static getInstance() {
-        if(!Container._instance) {
-            Container._instance = new Container();
+        /**@var {Container} instance*/
+        let instance = Container._instance;
+        if(!instance) {
+            Container._instance = instance = new Container();
         }
-        return Container._instance.getProxy();
+        return instance.getProxy();
     }
     /**
      * 获取容器代理对象
@@ -49,6 +55,11 @@ export default class Container extends IContainer {
         return this.#proxy;
     }
 
+    /**
+     * 是否是类类型
+     * @param {any} obj
+     * @return {boolean}
+     * */
     isClass(obj) {
         return isClass(obj);
     }
