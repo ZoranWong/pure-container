@@ -7,7 +7,18 @@ import {
 } from 'underscore';
 /**
  * @constructor {Container} 容器
- * @property {IContainer} getProxy
+ * @property {Function} getProxy
+ * @property {Function} bindMethod
+ * @property {Function} callMethodBinding
+ * @property {Function} instance
+ * @property {Function} bind
+ * @property {Function} singleton
+ * @property {Function} hasMethodBinding
+ * @property {Function} make
+ * @property {Function} get
+ * @property {Function} mixin
+ * @property {Function} extend
+ * @property {Function} isClass
  * */
 export default class Container extends IContainer {
     /**@property {Proxy<Container>} 容器实例代理对象*/
