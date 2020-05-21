@@ -62,7 +62,7 @@ let user = container.callMethodBinding('createUser', 'Mr. Zou', '29', 'Male');
 - import container to your nodejs project and using in the project
 
 ```
-const Container = require('pure-container').default;
+const Container = require('pure-container');
 ```
 
 
