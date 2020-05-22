@@ -1,7 +1,7 @@
 'use strict';
 /**
  * @method 判断是否为类类型
- * @param {any} instance
+ * @param {FunctionConstructor} instance
  * @return {boolean}
  * */
 export function isClass(instance) {

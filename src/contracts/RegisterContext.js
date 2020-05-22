@@ -1,3 +1,4 @@
+'use strict';
 import { isFunction, isObject } from 'underscore';
 import IContainer from "./IContainer";
 
@@ -13,7 +14,7 @@ export default class RegisterContext {
     /**
      * @constructor
      * @param {string} name
-     * @param {any} instance
+     * @param {FunctionConstructor} instance
      * @param {IContainer} context
      * @param {boolean} singleton
      * */
@@ -67,7 +68,7 @@ export default class RegisterContext {
 
     /**
      * 对象创建函数
-     * @param  {Array} params [参数数组]
+     * @param  {IArguments} params [参数数组]
      * @return {any}        [返回创建的]
      */
     resolve(...params) {

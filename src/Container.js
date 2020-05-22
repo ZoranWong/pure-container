@@ -1,3 +1,4 @@
+'use strict';
 import IContainer from './contracts/IContainer';
 import {
     isClass

@@ -1,3 +1,4 @@
+'use strict';
 import RegisterContext from './RegisterContext';
 import {
     isFunction,
@@ -33,7 +34,7 @@ export default class IContainer {
     /**
      * [绑定注册类与工厂函数]
      * @param  {string} name     [单例对象名称]
-     * @param  {any} instance [单例对象、类或者对象生产方法]
+     * @param  {FunctionConstructor} concrete [单例对象、类或者对象生产方法]
      * @param {boolean} singleton [是否单例]
      * @return {IContainer}          [返回容器]
      */
@@ -45,7 +46,7 @@ export default class IContainer {
     /**
      * 绑定函数
      * @param {string} method
-     * @param {function} callback
+     * @param {Function} callback
      * */
     bindMethod(method, callback) {
         this.#methodBindings[this.parseBindMethod(method)] = callback;
@@ -77,7 +78,7 @@ export default class IContainer {
     /**
      * 调用绑定函数
      * @param {string} method
-     * @param {Array} params
+     * @param {IArguments} params
      * @return {any}
      * */
     callMethodBinding(method, ...params) {
@@ -89,7 +90,7 @@ export default class IContainer {
     /**
      * [单例对象注册]
      * @param  {string} name     [单例对象名称]
-     * @param  {any} instance [单例对象、类或者对象生产方法]
+     * @param  {FunctionConstructor} instance [单例对象、类或者对象生产方法]
      * @return {IContainer}          [返回容器]
      */
     singleton(name, instance) {
@@ -112,13 +113,17 @@ export default class IContainer {
     /**
      * 创建绑定对象
      * @param {string} name
-     * @param {Array} params
+     * @param {IArguments} params
      * @return {any}
      * */
     make(name, ...params) {
         return this.resolve(name, ...params);
     }
 
+    /**
+     * @param {string} name
+     * @param {IArguments} params
+     * */
     resolve(name, ...params) {
         name = this.getAlias(name);
         let instances = this.#instances;
