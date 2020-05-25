@@ -19,8 +19,8 @@ function typeCheck(target, name, descriptor, type) {
             return v;
         },
         set: function (c) {
-            let cType = typeof c;
-            if(cType === 'string'){
+            let cType = typeOf(c);
+            if(cType === type){
                 v = c;
             }else {
                 throw new TypeError(`The type of attribute ${name} is a ${type}, not a ${cType}`);
