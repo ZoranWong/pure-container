@@ -20,7 +20,7 @@ function typeCheck(target, name, descriptor, type) {
         },
         set: function (c) {
             let cType = typeOf(c);
-            if(cType === type){
+            if(cType === type || ((cType === 'int' || cType === 'unsigned') && type === 'float')){
                 v = c;
             }else {
                 throw new TypeError(`The type of attribute ${name} is a ${type}, not a ${cType}`);
