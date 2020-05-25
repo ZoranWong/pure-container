@@ -1,9 +1,11 @@
 import Container from '../src/Container';
-import {string} from "../src/decorators/propertyDecorators";
+import {readonly, string, unsigned} from "../src/decorators";
 
 class Test {
     @string
     name = '';
+    @readonly
+    count = 0;
     constructor(name) {
         this.name = name;
     }
@@ -15,9 +17,9 @@ container.bind('test', Test);
 let test1 = container.make('test', 'test');
 let test2 = container.make('test', 'test');
 try{
-    test1.name = 1;
+    test1.count = -2;
 }catch (e) {
-    console.log(e);
+    console.log(e.message);
 }
 
 test('test1 not equal test2!', () => {
