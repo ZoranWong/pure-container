@@ -1,13 +1,17 @@
 import Container from '../src/Container';
-import {readonly, string, unsigned} from "../src/decorators";
+import {CheckCustomerClass, int, method, readonly, string, unsigned} from "../src/decorators";
 
 class Test {
     @string
     name = '';
-    @readonly
+    @CheckCustomerClass(Number)
     count = 0;
     constructor(name) {
         this.name = name;
+    }
+    @method([string], int)
+    log(context) {
+        return 1;
     }
 }
 
@@ -20,6 +24,12 @@ try{
     test1.count = -2;
 }catch (e) {
     console.log(e.message);
+}
+
+try{
+    test1.log(-1);
+}catch (e) {
+    console.log(e.message, test1.constructor.name);
 }
 
 test('test1 not equal test2!', () => {
