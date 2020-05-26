@@ -9,7 +9,7 @@ class Test {
     constructor(name) {
         this.name = name;
     }
-    @method([string], unsigned)
+    @method([string], int)
     log(context) {
         return 1;
     }

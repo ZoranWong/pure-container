@@ -1,3 +1,12 @@
+const BaseType = [Number, String, Boolean];
+
+function isBaseType(val) {
+    for (let i in BaseType) {
+        if(BaseType[i].name.toLowerCase() === typeof val)
+            return true;
+    }
+    return  false;
+}
 function paramTypeCheck(value, index, type) {
     let cType = typeOf(value);
     if(typeOf(type) === 'string') {
@@ -12,7 +21,10 @@ function paramTypeCheck(value, index, type) {
         }else{
             throw new TypeError(`the parameters[${index}] is a class ${type.name} instance, not a class ${value.constructor.name} instance`);
         }
-    }else{
+    } else {
+        if(isBaseType(value)) {
+            return true;
+        }
         throw new TypeError(`the parameters[${index}] is a ${cType} instance, not a class ${value.constructor.name} instance`);
     }
 }
@@ -32,6 +44,9 @@ function returnTypeCheck(value, type) {
             throw new TypeError(`the function return data is a class ${type.name} instance, not a class ${value.constructor.name} instance`);
         }
     }else{
+        if(isBaseType(value)) {
+            return true;
+        }
         throw new TypeError(`the function return data is a ${cType} instance, not a class ${value.constructor.name} instance`);
     }
 }
@@ -51,6 +66,9 @@ function propertyTypeCheck(target, name, type) {
             throw new TypeError(`the property ${name} is a class ${type.name} instance, not a class ${target.constructor.name} instance`);
         }
     }else{
+        if(isBaseType(target)) {
+            return true;
+        }
         throw new TypeError(`the property ${name} is a ${cType} instance, not a class ${target.constructor.name} instance`);
     }
 }
@@ -98,7 +116,9 @@ function typeOf(value) {
     return type;
 }
 function check(cType, type) {
-    if(!(cType === type || ((cType === 'int' || cType === 'unsigned') && type === 'float'))){
+    let compatibleNumberToFloat = ((cType === 'int' || cType === 'unsigned') && type === 'float');
+    let compatibleUnsignedToInt = (cType === 'unsigned' && type === 'int');
+    if(!(cType === type || compatibleNumberToFloat || compatibleUnsignedToInt)){
         return  false;
     }
     return true;
@@ -146,6 +166,10 @@ export function Factory(target, name, descriptor) {
 
 export function float(target, name, descriptor) {
     return typeCheck('float', target, name, descriptor)
+}
+
+export function boolean(target, name, descriptor) {
+    return typeCheck('boolean', target, name, descriptor)
 }
 
 export function Enum(data) {
