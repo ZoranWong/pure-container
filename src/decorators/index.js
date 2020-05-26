@@ -60,7 +60,7 @@ class Descriptor {
 /**
  * @param {string} type
  * @param {any} target
- * @param {string|int} name
+ * @param {string|int|null} name
  * @param {Descriptor} descriptor
  * @return {any}
  * */
@@ -79,8 +79,10 @@ function typeCheck(type, target, name, descriptor = null) {
                 }
             }
         }
-    }else{
+    }else if (name){
         return  paramTypeCheck(target, name, type);
+    }else{
+        return returnTypeCheck(target, type);
     }
 }
 
@@ -175,11 +177,17 @@ export function method(params, returnType) {
             value (...arg) {
                 for (let index in params) {
                     let type = params[index];
-                    type(arg[index], index);
+                    if(typeOf(type) !== 'string')
+                        type(arg[index], index);
+                    else
+                        paramTypeCheck(arg[index], index, type);
                 }
                 let result = descriptor.value.apply(this, arg);
                 if(returnType){
-                    returnTypeCheck(result, returnType);
+                    if(typeOf(returnType) === 'string')
+                        returnTypeCheck(result, returnType);
+                    else
+                        returnType(result);
                 }
                 return result;
             }
