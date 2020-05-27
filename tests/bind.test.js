@@ -1,10 +1,13 @@
 import Container from '../src/Container';
-import {CheckCustomerClass, int, method, readonly, string, unsigned} from "../src/decorators";
+// import {CheckCustomerClass, int, method, readonly, string, unsigned} from "@zoranwong/pure-decorators";
+import {string, CheckType, method, int} from '@zoranwong/pure-decorators';
+
+// console.log(obj);
 
 class Test {
     @string
     name = '';
-    @CheckCustomerClass(Number)
+    @CheckType(Number)
     count = 0;
     constructor(name) {
         this.name = name;

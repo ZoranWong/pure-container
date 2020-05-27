@@ -5,6 +5,8 @@ import {
     isArray,
     each
 } from 'underscore';
+
+import {any, method, string} from '@zoranwong/pure-decorators';
 /**
  * @interface IContainer 容器接口
  * @type {Array}
@@ -22,6 +24,7 @@ export default class IContainer {
      * @param  {any} instance [description]
      * @return {IContainer}          [description]
      */
+    @method([string, any], IContainer)
     instance(name, instance) {
         if(!isFunction(instance)) {
             this.#instances[name] = instance;
@@ -57,6 +60,7 @@ export default class IContainer {
      * @param {string} method
      * @return {string}
      * */
+    @method([string], string)
     parseBindMethod(method) {
         if(isArray(method)) {
             return `${method[0]}@${method[1]}`;
@@ -69,6 +73,7 @@ export default class IContainer {
      * @param {string} method
      * @return {boolean}
      * */
+    @method([string], boolean)
     hasMethodBinding(method) {
         method = this.parseBindMethod(method);
         let bindings = this.#methodBindings;
@@ -81,6 +86,7 @@ export default class IContainer {
      * @param {IArguments} params
      * @return {any}
      * */
+    @method([string], any)
     callMethodBinding(method, ...params) {
         let bindings = this.#methodBindings;
         if(this.hasMethodBinding(method)) {

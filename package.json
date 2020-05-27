@@ -22,7 +22,7 @@
   "author": "Zoran Wong",
   "license": "MIT",
   "dependencies": {
-    "@types/underscore": "^1.9.4",
+    "@zoranwong/pure-decorators": "0.0.8",
     "underscore": "^1.10.2"
   },
   "devDependencies": {
