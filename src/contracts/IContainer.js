@@ -1,4 +1,3 @@
-'use strict';
 import RegisterContext from './RegisterContext';
 import {
     isFunction,
@@ -6,7 +5,7 @@ import {
     each
 } from 'underscore';
 
-import {any, method, string} from '@zoranwong/pure-decorators';
+import {any, method, string, fun, boolean} from '@zoranwong/pure-decorators';
 /**
  * @interface IContainer 容器接口
  * @type {Array}
@@ -41,6 +40,7 @@ export default class IContainer {
      * @param {boolean} singleton [是否单例]
      * @return {IContainer}          [返回容器]
      */
+    @method([string, any, any], IContainer)
     bind(name, concrete, singleton = false) {
         this.#bindings[name] = new RegisterContext(name, concrete, this, singleton);
         return this;
@@ -51,6 +51,7 @@ export default class IContainer {
      * @param {string} method
      * @param {Function} callback
      * */
+    @method([string, fun], any)
     bindMethod(method, callback) {
         this.#methodBindings[this.parseBindMethod(method)] = callback;
     }
@@ -99,6 +100,7 @@ export default class IContainer {
      * @param  {FunctionConstructor} instance [单例对象、类或者对象生产方法]
      * @return {IContainer}          [返回容器]
      */
+    @method([string, any], IContainer)
     singleton(name, instance) {
         return this.bind(name, instance, true);
     }
@@ -108,6 +110,7 @@ export default class IContainer {
      * @param {string} name
      * @return {string}
      * */
+    @method([any], any)
     getAlias(name) {
         let aliases = this.#aliases;
         if(typeof aliases[name] === 'undefined') {
@@ -122,6 +125,7 @@ export default class IContainer {
      * @param {IArguments} params
      * @return {any}
      * */
+    @method([string], any)
     make(name, ...params) {
         return this.resolve(name, ...params);
     }
@@ -130,6 +134,7 @@ export default class IContainer {
      * @param {string} name
      * @param {IArguments} params
      * */
+    @method([any], any)
     resolve(name, ...params) {
         name = this.getAlias(name);
         let instances = this.#instances;
@@ -156,6 +161,7 @@ export default class IContainer {
      * @param  {string} name   [对象注册名称]
      * @return {any}        [返回注册对象实例]
      */
+    @method([any], any)
     get(name) {
         return this.resolve(name);
     }

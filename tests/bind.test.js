@@ -5,17 +5,7 @@ import {string, CheckType, method, int} from '@zoranwong/pure-decorators';
 // console.log(obj);
 
 class Test {
-    @string
     name = '';
-    @CheckType(Number)
-    count = 0;
-    constructor(name) {
-        this.name = name;
-    }
-    @method([string], int)
-    log(context) {
-        return 1;
-    }
 }
 
 let container = Container.getInstance();
@@ -23,23 +13,6 @@ container.bind('test', Test);
 
 let test1 = container.make('test', 'test');
 let test2 = container.make('test', 'test');
-try{
-    test1.count = -2;
-}catch (e) {
-    console.log(e.message);
-}
-
-try{
-    test1.log(-1);
-}catch (e) {
-    console.log(e.message);
-}
-
-try{
-    test1.log('x');
-}catch (e) {
-    console.log(e.message);
-}
 
 test('test1 not equal test2!', () => {
     expect(test1 === test2)

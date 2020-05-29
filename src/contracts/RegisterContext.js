@@ -1,15 +1,18 @@
 'use strict';
-import { isFunction, isObject } from 'underscore';
+import {isFunction, isObject} from 'underscore';
 import IContainer from "./IContainer";
-
+import {any, string, boolean, method, ArrowFunction,} from "@zoranwong/pure-decorators";
 export default class RegisterContext {
     /**@property {boolean} singleton*/
+    @boolean
     singleton = false;
     /**@property {Function} callback*/
+    @ArrowFunction
     callback = ()=>{};
     /**@property {IContainer} context*/
     context = null;
     /**@property {string} name*/
+    @string
     name = '';
     /**
      * @constructor
@@ -30,6 +33,7 @@ export default class RegisterContext {
      * @param  {any} instance [绑定对象或者函数]
      * @return {Function}          [对象创建函数]
      */
+    @method([any], ArrowFunction)
     getClosure(instance) {
         if (isFunction(instance)) {
             try {

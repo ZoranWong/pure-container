@@ -14,6 +14,8 @@
     "deploy": "webpack --mode production"
   },
   "keywords": [
+    "pure",
+    "pure-container",
     "js",
     "container",
     "nodejs",

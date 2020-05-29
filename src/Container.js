@@ -33,6 +33,9 @@ export default class Container extends IContainer {
         super();
         this.#proxy = new Proxy(this, {
             get(obj, prop) {
+                if(prop instanceof Symbol){
+                    console.log('-------------', prop);
+                }
                 return typeof obj[prop] === 'undefined' ? obj.get(prop) : obj[prop];
             },
             set(obj, prop, value) {
