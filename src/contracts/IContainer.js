@@ -186,7 +186,7 @@ export default class IContainer {
      * */
     mixin(options) {
         each(options, (item, name) => {
-            this.constructor.prototype[name] = item;
+            this[name] = item;
         });
     }
 }
