@@ -31,3 +31,11 @@ test('user1 not equal user2!', () => {
     expect(user1 === user2)
         .toEqual(false);
 });
+
+container.mixin({
+    userInfo(){
+        console.log('------------- user info --------');
+    }
+});
+
+container.userInfo();

@@ -188,7 +188,11 @@ export default class IContainer {
      * */
     mixin(options) {
         each(options, (item, name) => {
-            this[name] = item;
+            this.addMethodOnPrototype(name, item);
         });
+    }
+
+    addMethodOnPrototype(name, item) {
+        this.constructor.prototype[name] = item;
     }
 }
