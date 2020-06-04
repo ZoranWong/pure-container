@@ -57,7 +57,6 @@ export default class Container extends IContainer {
      * 获取容器代理对象
      * @return {Container|Proxy}
      */
-    @method([], Container)
     static getInstance() {
         /**@var {Container} instance*/
         let instance = Container._instance;
@@ -70,7 +69,6 @@ export default class Container extends IContainer {
      * 获取容器代理对象
      * @return {Container|Proxy}
      */
-    @method([], Container)
     getProxy() {
         return this.#proxy;
     }
@@ -80,7 +78,6 @@ export default class Container extends IContainer {
      * @param {any} obj
      * @return {boolean}
      * */
-    @method([], boolean)
     isClass(obj) {
         return isClass(obj);
     }

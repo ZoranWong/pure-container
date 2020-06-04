@@ -2,13 +2,14 @@
 import {isFunction, isObject} from 'underscore';
 import IContainer from "./IContainer";
 import {any, string, boolean, method, ArrowFunction,} from "@zoranwong/pure-decorators";
+import {isClass} from "../helpers";
 export default class RegisterContext {
     /**@property {boolean} singleton*/
     @boolean
     singleton = false;
     /**@property {Function} callback*/
     @ArrowFunction
-    callback = ()=>{};
+    callback = null;
     /**@property {IContainer} context*/
     context = null;
     /**@property {string} name*/
@@ -33,12 +34,11 @@ export default class RegisterContext {
      * @param  {any} instance [绑定对象或者函数]
      * @return {Function}          [对象创建函数]
      */
-    @method([any], ArrowFunction)
     getClosure(instance) {
         if (isFunction(instance)) {
             try {
-                let obj = instance(this.context);
-                if (typeof obj === 'undefined') {
+                let isCls = isClass(instance);
+                if (isCls) {
                     return (context, ...params) => {
                         this.context = context;
                         return new instance(...params);

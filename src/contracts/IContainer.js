@@ -137,6 +137,7 @@ export default class IContainer {
     @method([any], any)
     resolve(name, ...params) {
         name = this.getAlias(name);
+
         let instances = this.#instances;
         if(typeof instances[name] !== 'undefined') {
             return instances[name];
@@ -146,6 +147,7 @@ export default class IContainer {
          * @var {RegisterContext} context
          * */
         let context = bindings[name];
+
         if(typeof context !== 'undefined') {
             let instance = context.resolve(...params);
             if(context.singleton) {
