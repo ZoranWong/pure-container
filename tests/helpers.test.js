@@ -38,12 +38,12 @@ let fun5 = () => {}
 
 test('fun3 is a class', () => {
     expect(isClass(fun3))
-        .toEqual(true);
+        .toEqual(false);
 });
 
 test('fun4 is a class', () => {
     expect(isClass(fun4))
-        .toEqual(true);
+        .toEqual(false);
 });
 
 test('fun5 is not a class', () => {
