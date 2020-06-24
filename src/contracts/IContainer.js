@@ -40,9 +40,9 @@ export default class IContainer {
      * @param {boolean} singleton [是否单例]
      * @return {IContainer}          [返回容器]
      */
-    @method([string, any, any], IContainer)
-    bind(name, concrete, singleton = false) {
-        this.#bindings[name] = new RegisterContext(name, concrete, this, singleton);
+    @method([string, any, boolean, boolean], IContainer)
+    bind(name, concrete, needPool = false, singleton = false) {
+        this.#bindings[name] = new RegisterContext(name, concrete, this, singleton, needPool);
         return this;
     }
 
@@ -102,7 +102,7 @@ export default class IContainer {
      */
     @method([string, any], IContainer)
     singleton(name, instance) {
-        return this.bind(name, instance, true);
+        return this.bind(name, instance, false, true);
     }
 
     /**

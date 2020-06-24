@@ -33,10 +33,11 @@ export default class RegisterContext {
      * @param {IContainer} context
      * @param {boolean} singleton
      * */
-    constructor(name, instance, context, singleton = false) {
+    constructor(name, instance, context, singleton = false, needPool = false) {
         this.name = name;
         this.singleton = singleton;
         this.context = context;
+        this.needPool = needPool;
         this.callback = this.getClosure(instance);
     }
 
@@ -97,8 +98,8 @@ export default class RegisterContext {
                 context.instance(this.name, instance);
                 return instance;
             } else {
-                let busyPool = null;
-                let freePool = null;
+                let busyPool = [];
+                let freePool = [];
                 if(this.needPool && this._constructor) {
                     busyPool = RegisterContext.busyPool.get(this._constructor);
                     freePool = RegisterContext.freePool.get(this._constructor);
