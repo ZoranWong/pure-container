@@ -1,20 +1,31 @@
 'use strict';
 import {isFunction, isObject} from 'underscore';
 import IContainer from "./IContainer";
-import {any, string, boolean, method, ArrowFunction,} from "@zoranwong/pure-decorators";
+import {any, string, boolean, ArrowFunction,} from "@zoranwong/pure-decorators";
 import {isClass} from "../helpers";
+
 export default class RegisterContext {
     /**@property {boolean} singleton*/
     @boolean
     singleton = false;
     /**@property {Function} callback*/
     @ArrowFunction
-    callback = null;
+    callback = () => {
+        return null;
+    };
     /**@property {IContainer} context*/
     context = null;
     /**@property {string} name*/
     @string
     name = '';
+
+    needPool = false;
+
+    _constructor = null;
+
+    static busyPool = new WeakMap();
+    static freePool = new WeakMap();
+
     /**
      * @constructor
      * @param {string} name
@@ -37,6 +48,7 @@ export default class RegisterContext {
     getClosure(instance) {
         if (isFunction(instance)) {
             try {
+                this._constructor = instance;
                 let isCls = isClass(instance);
                 if (isCls) {
                     return (context, ...params) => {
@@ -57,6 +69,7 @@ export default class RegisterContext {
             }
         } else {
             if (isObject(instance) && typeof instance.constructor !== 'undefined') {
+                this._constructor = instance.constructor;
                 return (context, ...params) => {
                     this.context = context;
                     return new instance.constructor(...params);
@@ -76,7 +89,7 @@ export default class RegisterContext {
      * @return {any}        [返回创建的]
      */
     resolve(...params) {
-        if(this.callback) {
+        if (this.callback) {
             if (this.singleton) {
                 let instance = this.callback(this.context, ...params);
                 /**@var {IContainer} context*/
@@ -84,9 +97,44 @@ export default class RegisterContext {
                 context.instance(this.name, instance);
                 return instance;
             } else {
-                return this.callback(this.context, ...params);
+                let busyPool = null;
+                let freePool = null;
+                if(this.needPool && this._constructor) {
+                    busyPool = RegisterContext.busyPool.get(this._constructor);
+                    freePool = RegisterContext.freePool.get(this._constructor);
+                }
+                let obj = freePool ? freePool.pop() : null;
+                obj = obj ? obj : this.callback(this.context, ...params);
+                if (this.needPool && this._constructor) {
+                    busyPool = busyPool || [];
+                    busyPool.push(obj);
+                    this.bindDestroy(obj);
+                }
+                return obj;
             }
         }
-        return  null;
+        return null;
+    }
+
+    bindDestroy(instance) {
+        let destroy = () => {
+            //
+            /**@var {Array} busyPool*/
+            let busyPool = RegisterContext.busyPool.get(this._constructor);
+            busyPool = busyPool ? busyPool : [];
+            let index = busyPool.indexOf(instance);
+            if (index > -1)
+                delete busyPool[index];
+            RegisterContext.busyPool.set(this._constructor, busyPool);
+            /**@var {Array} freePool*/
+            let freePool = RegisterContext.freePool.get(this._constructor);
+            freePool = freePool ? freePool : [];
+            freePool.push(instance);
+            RegisterContext.freePool.set(this._constructor, freePool);
+        }
+        Object.defineProperty(instance, 'destroy', {
+            writable: false,
+            value: destroy
+        });
     }
 }
