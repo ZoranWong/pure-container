@@ -18,12 +18,12 @@ test('test1 not equal test2!', () => {
     expect(test1 === test2)
         .toEqual(false);
 });
-
-container.user = class User {
+class User {
     constructor() {
 
     }
 }
+container.user = User;
 
 let user1 = container.user;
 let user2 = container.user;
@@ -39,3 +39,9 @@ container.mixin({
 });
 
 container.userInfo();
+
+container.bind('user01', User, true);
+
+let user01 = container['user01'];
+let user02 = container['user01'];
+console.log(user01.destroy())
