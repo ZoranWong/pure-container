@@ -80,14 +80,14 @@ const Container = require('pure-container');
   params: instance(name: string, instance: any)
 ```
 
-- container.bind(name, obj, needPool, singleton)
+- container.bind(name, obj, needPool = false, singleton = false)
 ```
     This method can be used to register a class or a factory method which can be used to create object  into the container.
     params: bind(name: string, obj: constructor|Closure, needPool: boolean, singleton: boolean)
     name: binding name
     obj: binding constructor or Closure
-    needPool: use object pool
-    singleton: bind constructor as singleton object
+    needPool: use object pool default value false
+    singleton: bind constructor as singleton object default value false
 ```
 
 - container.singleton(name, obj)
