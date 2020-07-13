@@ -43,5 +43,8 @@ container.userInfo();
 container.bind('user01', User, true);
 
 let user01 = container['user01'];
+user01.destroy();
+console.log(user01);
 let user02 = container['user01'];
-console.log(user01.destroy())
+let user03 = container['user01'];
+console.log(user01 === user02, user01 === user03)

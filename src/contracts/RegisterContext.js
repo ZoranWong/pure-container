@@ -1,9 +1,9 @@
 'use strict';
 import {isFunction, isObject} from 'underscore';
 import IContainer from "./IContainer";
-import {any, string, boolean, ArrowFunction,} from "@zoranwong/pure-decorators";
+import {any, string, boolean, ArrowFunction, Constructor,} from "@zoranwong/pure-decorators";
 import {isClass} from "../helpers";
-
+const   POOL_MAX_SIZE = 100;
 export default class RegisterContext {
     /**@property {boolean} singleton*/
     @boolean
@@ -18,11 +18,10 @@ export default class RegisterContext {
     /**@property {string} name*/
     @string
     name = '';
-
+    @boolean
     needPool = false;
-
-    _constructor = null;
-
+    @Constructor
+    _constructor;
     static busyPool = new WeakMap();
     static freePool = new WeakMap();
 
@@ -49,23 +48,27 @@ export default class RegisterContext {
     getClosure(instance) {
         if (isFunction(instance)) {
             try {
-                this._constructor = instance;
                 let isCls = isClass(instance);
                 if (isCls) {
+                    this._constructor = instance;
                     return (context, ...params) => {
                         this.context = context;
-                        return new instance(...params);
+                        return new this._constructor(...params);
                     }
                 } else {
+                    this._constructor = function (context, ...params) {
+                        return instance(context, ...params);
+                    }
                     return (context, ...params) => {
                         this.context = context;
-                        return instance(context, ...params);
+                        return new this._constructor(context, ...params);
                     }
                 }
             } catch (e) {
+                this._constructor = instance;
                 return (context, ...params) => {
                     this.context = context;
-                    return new instance(...params);
+                    return new this._constructor(...params);
                 }
             }
         } else {
@@ -73,12 +76,15 @@ export default class RegisterContext {
                 this._constructor = instance.constructor;
                 return (context, ...params) => {
                     this.context = context;
-                    return new instance.constructor(...params);
+                    return new this._constructor(...params);
                 }
             } else {
+                this._constructor = function () {
+                    return instance;
+                }
                 return (context) => {
                     this.context = context;
-                    return instance;
+                    return new this._constructor();
                 }
             }
         }
@@ -130,12 +136,15 @@ export default class RegisterContext {
             /**@var {Array} freePool*/
             let freePool = RegisterContext.freePool.get(this._constructor);
             freePool = freePool ? freePool : [];
-            freePool.push(instance);
+            if(freePool.length < POOL_MAX_SIZE)
+                freePool.push(instance);
             RegisterContext.freePool.set(this._constructor, freePool);
         }
-        Object.defineProperty(instance, 'destroy', {
-            writable: false,
-            value: destroy
-        });
+        if(!instance.hasOwnProperty('destroy')){
+            Object.defineProperty(instance, 'destroy', {
+                writable: false,
+                value: destroy
+            });
+        }
     }
 }
