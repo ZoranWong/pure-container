@@ -9,6 +9,10 @@ class Test {
 let container = Container.getInstance();
 container.singleton('testSingleton', Test);
 
+container.singleton('obj1', function () {
+    return {};
+});
+
 let test1 = container.make('testSingleton', 'test0');
 let test2 = container.make('testSingleton', 'test1');
 test('container singleton object test1  equal test2!', () => {
