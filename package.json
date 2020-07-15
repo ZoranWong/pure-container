@@ -2,7 +2,7 @@
   "name": "@zoranwong/pure-container",
   "version": "0.0.26",
   "description": "js container",
-  "main": "lib/main.js",
+  "main": "lib/index.js",
   "files": [
     "lib"
   ],
