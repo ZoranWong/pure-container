@@ -9,7 +9,7 @@ const isProd = process.env.NODE_ENV === 'production'
 module.exports = {
     entry: './src/Container.js',
     output: {
-        path: path.resolve(__dirname, 'lib'),
+        path: path.resolve(__dirname, 'dist'),
         filename: '[name].js',
         libraryTarget: 'umd',
         library: 'pure-container',
