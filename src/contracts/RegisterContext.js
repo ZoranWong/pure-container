@@ -57,18 +57,20 @@ export default class RegisterContext {
                     }
                 } else {
                     this._constructor = function (context, ...params) {
-                        return instance(context, ...params);
+                        this.instance = instance(context, ...params);
                     }
                     return (context, ...params) => {
                         this.context = context;
-                        return new this._constructor(context, ...params);
+                        return (new this._constructor(context, ...params)).instance;
                     }
                 }
             } catch (e) {
-                this._constructor = instance;
+                this._constructor = function (...params) {
+                    this.instance = new instance(...params)
+                };
                 return (context, ...params) => {
                     this.context = context;
-                    return new this._constructor(...params);
+                    return (new this._constructor(...params)).instance;
                 }
             }
         } else {
@@ -80,11 +82,11 @@ export default class RegisterContext {
                 }
             } else {
                 this._constructor = function () {
-                    return instance;
+                    this.instance = instance;
                 }
                 return (context) => {
                     this.context = context;
-                    return new this._constructor();
+                    return (new this._constructor()).instance;
                 }
             }
         }

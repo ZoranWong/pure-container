@@ -1,4 +1,4 @@
-import Container from '../src/Container';
+import Container from '../lib';
 // import {CheckCustomerClass, int, method, readonly, string, unsigned} from "@zoranwong/pure-decorators";
 import {string, CheckType, method, int} from '@zoranwong/pure-decorators';
 

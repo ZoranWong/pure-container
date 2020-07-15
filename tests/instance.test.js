@@ -1,4 +1,4 @@
-import Container from '../src/Container';
+import Container from '../lib';
 
 let container = Container.getInstance();
 container.instance('instance', {

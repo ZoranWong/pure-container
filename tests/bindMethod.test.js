@@ -1,4 +1,4 @@
-import Container from '../src/Container';
+import Container from '../lib';
 class Test {
     name = '';
     constructor(name) {
