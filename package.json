@@ -11,7 +11,7 @@
     "prepublish": "npm run deploy",
     "watch": "webpack --mode development --watch",
     "start": "webpack --mode development",
-    "deploy": "webpack --mode production"
+    "deploy": "gulp && webpack --mode production"
   },
   "keywords": [
     "pure",
