@@ -48,50 +48,50 @@ export default class IContainer {
 
     /**
      * 绑定函数
-     * @param {string} method
+     * @param {string} methodName
      * @param {Function} callback
      * */
     @method([string, fun], any)
-    bindMethod(method, callback) {
-        this.#methodBindings[this.parseBindMethod(method)] = callback;
+    bindMethod(methodName, callback) {
+        this.#methodBindings[this.parseBindMethod(methodName)] = callback;
     }
 
     /**
      * 解析函数名称
-     * @param {string} method
+     * @param {string} methodName
      * @return {string}
      * */
     @method([string], string)
-    parseBindMethod(method) {
-        if(isArray(method)) {
-            return `${method[0]}@${method[1]}`;
+    parseBindMethod(methodName) {
+        if(isArray(methodName)) {
+            return `${methodName[0]}@${methodName[1]}`;
         }
-        return method;
+        return methodName;
     }
 
     /**
      * 判断函数是否绑定
-     * @param {string} method
+     * @param {string} methodName
      * @return {boolean}
      * */
     @method([string], boolean)
-    hasMethodBinding(method) {
-        method = this.parseBindMethod(method);
+    hasMethodBinding(methodName) {
+        methodName = this.parseBindMethod(methodName);
         let bindings = this.#methodBindings;
-        return typeof bindings[method] !== 'undefined';
+        return typeof bindings[methodName] !== 'undefined';
     }
 
     /**
      * 调用绑定函数
-     * @param {string} method
+     * @param {string} methodName
      * @param {IArguments} params
      * @return {any}
      * */
     @method([string], any)
-    callMethodBinding(method, ...params) {
+    callMethodBinding(methodName, ...params) {
         let bindings = this.#methodBindings;
-        if(this.hasMethodBinding(method)) {
-            return bindings[method](...params);
+        if(this.hasMethodBinding(methodName)) {
+            return bindings[methodName](...params);
         }
     }
     /**

@@ -1,6 +1,6 @@
 {
   "name": "@zoranwong/pure-container",
-  "version": "0.0.29",
+  "version": "0.0.30",
   "description": "js container",
   "main": "lib/index.js",
   "files": [
@@ -24,7 +24,7 @@
   "author": "Zoran Wong",
   "license": "MIT",
   "dependencies": {
-    "@zoranwong/pure-decorators": "0.0.13",
+    "@zoranwong/pure-decorators": "0.0.14",
     "underscore": "^1.10.2"
   },
   "devDependencies": {
