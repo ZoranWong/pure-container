@@ -3,7 +3,8 @@ import {isFunction, isObject} from 'underscore';
 import IContainer from "./IContainer";
 import {any, string, boolean, ArrowFunction, Constructor,} from "@zoranwong/pure-decorators";
 import {isClass} from "../helpers";
-const   POOL_MAX_SIZE = 100;
+
+const POOL_MAX_SIZE = 100;
 export default class RegisterContext {
     /**@property {boolean} singleton*/
     @boolean
@@ -20,7 +21,7 @@ export default class RegisterContext {
     name = '';
     @boolean
     needPool = false;
-    @Constructor
+    // @Constructor
     _constructor;
     static busyPool = new WeakMap();
     static freePool = new WeakMap();
@@ -32,7 +33,7 @@ export default class RegisterContext {
      * @param {IContainer} context
      * @param {boolean} singleton
      * */
-    constructor(name, instance, context, singleton = false, needPool = false) {
+    constructor (name, instance, context, singleton = false, needPool = false) {
         this.name = name;
         this.singleton = singleton;
         this.context = context;
@@ -45,7 +46,7 @@ export default class RegisterContext {
      * @param  {any} instance [绑定对象或者函数]
      * @return {Function}          [对象创建函数]
      */
-    getClosure(instance) {
+    getClosure (instance) {
         if (isFunction(instance)) {
             try {
                 let isCls = isClass(instance);
@@ -57,22 +58,34 @@ export default class RegisterContext {
                     }
                 } else {
 
-                    this._constructor = class {
+                    class ContextConstructor {
                         constructor (context, ...params) {
-                            this.instance = instance(context, ...params);
+                            let obj = instance(context, ...params);
+                            if (obj) {
+                                this.instance = obj;
+                            }else{
+                                this.instance = new instance(...params)
+                            }
                         }
                     }
+
+                    ContextConstructor.prototype.instance = null;
+                    this._constructor = ContextConstructor;
                     return (context, ...params) => {
                         this.context = context;
                         return (new this._constructor(context, ...params)).instance;
                     }
                 }
             } catch (e) {
-                this._constructor = class  {
+                class ContextConstructor {
                     constructor (...params) {
                         this.instance = new instance(...params)
                     }
                 };
+
+                ContextConstructor.prototype.instance = null;
+                this._constructor = ContextConstructor;
+
                 return (context, ...params) => {
                     this.context = context;
                     return (new this._constructor(...params)).instance;
@@ -86,15 +99,8 @@ export default class RegisterContext {
                     return new this._constructor(...params);
                 }
             } else {
-                this._constructor = class  {
-                    constructor () {
-                        this.instance = instance;
-                    }
-                }
-
                 return (context) => {
-                    this.context = context;
-                    return (new this._constructor()).instance;
+                    return instance;
                 }
             }
         }
@@ -105,7 +111,7 @@ export default class RegisterContext {
      * @param  {IArguments} params [参数数组]
      * @return {any}        [返回创建的]
      */
-    resolve(...params) {
+    resolve (...params) {
         if (this.callback) {
             if (this.singleton) {
                 let instance = this.callback(this.context, ...params);
@@ -116,7 +122,7 @@ export default class RegisterContext {
             } else {
                 let busyPool = [];
                 let freePool = [];
-                if(this.needPool && this._constructor) {
+                if (this.needPool && this._constructor) {
                     busyPool = RegisterContext.busyPool.get(this._constructor);
                     freePool = RegisterContext.freePool.get(this._constructor);
                 }
@@ -133,7 +139,7 @@ export default class RegisterContext {
         return null;
     }
 
-    bindDestroy(instance) {
+    bindDestroy (instance) {
         let destroy = () => {
             //
             /**@var {Array} busyPool*/
@@ -146,11 +152,11 @@ export default class RegisterContext {
             /**@var {Array} freePool*/
             let freePool = RegisterContext.freePool.get(this._constructor);
             freePool = freePool ? freePool : [];
-            if(freePool.length < POOL_MAX_SIZE)
+            if (freePool.length < POOL_MAX_SIZE)
                 freePool.push(instance);
             RegisterContext.freePool.set(this._constructor, freePool);
         }
-        if(!instance.hasOwnProperty('destroy')){
+        if (!instance.hasOwnProperty('destroy')) {
             Object.defineProperty(instance, 'destroy', {
                 writable: false,
                 value: destroy
